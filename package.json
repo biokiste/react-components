@@ -1,0 +1,72 @@
+{
+  "name": "@biokiste/react-components",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist/*"
+  ],
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "@rollup/plugin-babel": "^5.2.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^10.4.9",
+    "@testing-library/user-event": "^7.1.2",
+    "autoprefixer": "^9.8.6",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.13",
+    "postcss-cli": "^7.1.1",
+    "prettier": "^2.1.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.0",
+    "rollup": "^2.26.6",
+    "rollup-plugin-peer-deps-external": "^2.2.3",
+    "rollup-plugin-postcss": "^3.1.6",
+    "rollup-plugin-visualizer": "^4.1.0",
+    "tailwindcss": "^1.7.5"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "scripts": {
+    "start": "yarn build-styles:watch|yarn build:watch",
+    "build": "rollup -c",
+    "build:watch": "yarn build -w",
+    "prebuild": "yarn build-styles",
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build-styles": "postcss src/styles/tailwind.css -o src/styles/index.css",
+    "build-styles:watch": "yarn build-styles -w"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {},
+  "collectCoverageFrom": [
+    "src/**/*.js",
+    "!src/**/*.spec.js"
+  ],
+  "coveragePathIgnorePatterns": [
+    "/node_modules/"
+  ]
+}
