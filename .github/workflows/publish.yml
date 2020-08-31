@@ -1,0 +1,24 @@
+name: publish package
+
+on:
+  push:
+    branches:
+      - "release/**"
+
+jobs:
+  build:
+    name: Build and publish to npm registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+          scope: "biokiste"
+          registry-url: https://registry.npmjs.org/
+
+      - run: yarn install
+      - run: yarn build
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
