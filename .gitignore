@@ -33,3 +33,6 @@ stats.html
 # postcss
 src/styles/index.css
 
+# storybook
+/storybook-static
+
