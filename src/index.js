@@ -1,4 +1,6 @@
 import "./styles/index.css";
-import Test from "./components/Test";
+import Dialog from "./components/Dialog";
 
-export { Test };
+export const useDialog = Dialog.useDialog;
+export const DialogProvider = Dialog.DialogProvider;
+export default { Dialog };
