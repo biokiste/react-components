@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
+import { Button } from "..";
 
 const DialogContext = createContext();
 
@@ -55,13 +56,13 @@ function Dialog(props) {
         actions.map((action) => {
           const { label, handler } = action;
           return (
-            <button key={label} onClick={handler}>
+            <Button key={label} onClick={handler}>
               {label}
-            </button>
+            </Button>
           );
         })
       ) : (
-        <button onClick={close}>{closeLabel}</button>
+        <Button onClick={close}>{closeLabel}</Button>
       )}
     </>
   ) : null;

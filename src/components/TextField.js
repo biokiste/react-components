@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { DialogProvider, useDialog } from "..";
+import { DialogProvider, useDialog, Button } from "..";
 
 function TextFieldContainer(props) {
   const { defaultValue = "", ...otherProps } = props;
@@ -53,9 +53,9 @@ function TextField(props) {
     <>
       <p data-testid="text-field-value">{value}</p>
       {editable ? (
-        <button data-testid="text-field-edit" onClick={handleClick}>
+        <Button data-testid="text-field-edit" onClick={handleClick}>
           {editLabel}
-        </button>
+        </Button>
       ) : null}
     </>
   );
