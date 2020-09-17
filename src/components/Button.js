@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
 function getDefaultStyles(color, disabled) {
   if (disabled) {
@@ -14,7 +14,7 @@ function getDefaultStyles(color, disabled) {
   return `${common} ${textColor} ${bgColor} ${extensions}`.trimRight();
 }
 
-function Button(props) {
+const Button = forwardRef((props, ref) => {
   const {
     onClick,
     children,
@@ -25,6 +25,7 @@ function Button(props) {
   } = props;
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onClick}
       data-testid="test-button"
@@ -39,6 +40,6 @@ function Button(props) {
       {children}
     </button>
   );
-}
+});
 
 export default Button;
