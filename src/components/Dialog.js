@@ -1,32 +1,49 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useCallback,
+  useReducer,
+} from "react";
 import { Button } from "..";
 
 const DialogContext = createContext();
 
+const initialState = {
+  isOpen: false,
+  content: "",
+  actions: [],
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "open": {
+      return { ...state, ...action.data };
+    }
+    case "close": {
+      return initialState;
+    }
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+}
+
 function DialogProvider(props) {
   const { children, ...otherProps } = props;
-  const [isOpen, setIsOpen] = useState(false);
-  const [content, setContent] = useState("");
-  const [actions, setActions] = useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const openDialog = useCallback((msg, act) => {
-    setIsOpen(true);
-    setContent(msg);
-    setActions(act);
+    dispatch({
+      type: "open",
+      data: { content: msg, actions: act, isOpen: true },
+    });
   }, []);
   const closeDialog = useCallback(() => {
-    setIsOpen(false);
-    setContent("");
-    setActions([]);
+    dispatch({ type: "close" });
   }, []);
   return (
-    <DialogContext.Provider value={{ openDialog, closeDialog, isOpen }}>
-      <Dialog
-        content={content}
-        isOpen={isOpen}
-        actions={actions}
-        close={closeDialog}
-        {...otherProps}
-      />
+    <DialogContext.Provider
+      value={{ openDialog, closeDialog, isOpen: state.isOpen }}
+    >
+      <Dialog {...state} close={closeDialog} {...otherProps} />
       {children}
     </DialogContext.Provider>
   );
