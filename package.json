@@ -78,5 +78,8 @@
   ],
   "coveragePathIgnorePatterns": [
     "/node_modules/"
-  ]
+  ],
+  "dependencies": {
+    "react-focus-lock": "^2.5.0"
+  }
 }

@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useReducer,
 } from "react";
+import FocusLock from "react-focus-lock";
 import { Button } from "..";
 
 const DialogContext = createContext();
@@ -67,36 +68,38 @@ function Dialog(props) {
   } = props;
 
   return isOpen ? (
-    <div
-      data-testid="dialog-background"
-      role="dialog"
-      onClick={close}
-      className="fixed inset-0 z-40 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
-    >
+    <FocusLock>
       <div
-        data-testid="dialog-body"
-        onClick={(evt) => evt.stopPropagation()}
-        className="w-full p-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+        data-testid="dialog-background"
+        role="dialog"
+        onClick={close}
+        className="fixed inset-0 z-40 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
       >
-        {typeof content === "string" ? (
-          <p className="dark:text-white">{content}</p>
-        ) : (
-          content
-        )}
-        {actions.length > 0 ? (
-          actions.map((action) => {
-            const { label, handler } = action;
-            return (
-              <Button key={label} onClick={handler}>
-                {label}
-              </Button>
-            );
-          })
-        ) : (
-          <Button onClick={close}>{closeLabel}</Button>
-        )}
+        <div
+          data-testid="dialog-body"
+          onClick={(evt) => evt.stopPropagation()}
+          className="w-full p-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+        >
+          {typeof content === "string" ? (
+            <p className="dark:text-white">{content}</p>
+          ) : (
+            content
+          )}
+          {actions.length > 0 ? (
+            actions.map((action) => {
+              const { label, handler } = action;
+              return (
+                <Button key={label} onClick={handler}>
+                  {label}
+                </Button>
+              );
+            })
+          ) : (
+            <Button onClick={close}>{closeLabel}</Button>
+          )}
+        </div>
       </div>
-    </div>
+    </FocusLock>
   ) : null;
 }
 

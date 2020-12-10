@@ -4,13 +4,13 @@ import { DialogProvider, useDialog } from "..";
 
 storiesOf("Dialog", module).add("default", () => {
   const Comp = () => {
-    const { openDialog, isOpen } = useDialog();
+    const { openDialog } = useDialog();
     const handleOpen = () => openDialog("Dialog open!");
-    return !isOpen ? (
+    return (
       <button onClick={handleOpen} className="dark:text-white">
         Open Dialog
       </button>
-    ) : null;
+    );
   };
 
   return (

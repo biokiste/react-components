@@ -11,7 +11,7 @@ function getDefaultStyles(color, disabled) {
     : "text-white";
   const bgColor = disabled
     ? `bg-${color}-200 dark:bg-${color}-600`
-    : `bg-${color}-500 hover:bg-${color}-400 dark:hover:bg-${color}-600 focus:bg-${color}-400 dark:focus:bg-${color}-600`;
+    : `bg-${color}-500 hover:bg-${color}-400 dark:hover:bg-${color}-600 focus:ring`;
   const extensions = disabled ? "cursor-not-allowed" : "";
   return `${common} ${textColor} ${bgColor} ${extensions}`.trimRight();
 }
