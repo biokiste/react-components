@@ -68,7 +68,11 @@ function Dialog(props) {
 
   return isOpen ? (
     <>
-      {typeof content === "string" ? <p>{content}</p> : content}
+      {typeof content === "string" ? (
+        <p className="dark:text-white">{content}</p>
+      ) : (
+        content
+      )}
       {actions.length > 0 ? (
         actions.map((action) => {
           const { label, handler } = action;

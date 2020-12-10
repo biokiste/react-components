@@ -6,7 +6,11 @@ storiesOf("Dialog", module).add("default", () => {
   const Comp = () => {
     const { openDialog, isOpen } = useDialog();
     const handleOpen = () => openDialog("Dialog open!");
-    return !isOpen ? <button onClick={handleOpen}>Open Dialog</button> : null;
+    return !isOpen ? (
+      <button onClick={handleOpen} className="dark:text-white">
+        Open Dialog
+      </button>
+    ) : null;
   };
 
   return (

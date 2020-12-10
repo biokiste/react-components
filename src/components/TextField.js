@@ -51,7 +51,9 @@ function TextField(props) {
 
   return (
     <>
-      <p data-testid="text-field-value">{value}</p>
+      <p className="dark:text-white" data-testid="text-field-value">
+        {value}
+      </p>
       {editable ? (
         <Button data-testid="text-field-edit" onClick={handleClick}>
           {editLabel}

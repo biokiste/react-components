@@ -6,10 +6,12 @@ function getDefaultStyles(color, disabled) {
   }
   const common =
     "font-bold uppercase text-base px-8 py-4 rounded outline-none focus:outline-none";
-  const textColor = disabled ? `text-${color}-500` : "text-white";
+  const textColor = disabled
+    ? `text-${color}-500 dark:text-${color}-400`
+    : "text-white";
   const bgColor = disabled
-    ? `bg-${color}-200`
-    : `bg-${color}-500 active:bg-${color}-600 hover:bg-${color}-400 focus:bg-${color}-400`;
+    ? `bg-${color}-200 dark:bg-${color}-600`
+    : `bg-${color}-500 hover:bg-${color}-400 dark:hover:bg-${color}-600 focus:bg-${color}-400 dark:focus:bg-${color}-600`;
   const extensions = disabled ? "cursor-not-allowed" : "";
   return `${common} ${textColor} ${bgColor} ${extensions}`.trimRight();
 }
