@@ -87,3 +87,25 @@ test("render passed nodes instead of message string", () => {
   const node = screen.getByTestId(testId);
   expect(node).toHaveTextContent(nodeContent);
 });
+
+test("close on background click", () => {
+  const Comp = () => {
+    const { openDialog } = useDialog();
+    useEffect(() => openDialog(), [openDialog]);
+    return null;
+  };
+
+  render(
+    <DialogProvider>
+      <Comp />
+    </DialogProvider>
+  );
+
+  const body = screen.getByTestId("dialog-body");
+  user.click(body);
+  expect(body).toBeInTheDocument();
+
+  const background = screen.getByTestId("dialog-background");
+  user.click(background);
+  expect(body).not.toBeInTheDocument();
+});
