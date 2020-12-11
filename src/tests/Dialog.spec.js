@@ -27,7 +27,6 @@ test("show custom message with close button", async () => {
 });
 
 test("replace close button label", () => {
-  const customMessage = "custom message";
   const customCloseLabel = "Confirm";
 
   const Comp = () => {
@@ -50,7 +49,6 @@ test("replace close button label", () => {
 });
 
 test("use custom actions", () => {
-  const customMessage = "custom message";
   const customAction = { label: "Custom", handler: jest.fn() };
 
   const Comp = () => {
@@ -107,5 +105,34 @@ test("close on background click", () => {
 
   const background = screen.getByTestId("dialog-background");
   user.click(background);
+  expect(body).not.toBeInTheDocument();
+});
+
+test("needs user interaction", () => {
+  const Comp = () => {
+    const { openDialog } = useDialog();
+    useEffect(
+      () =>
+        openDialog({
+          important: true,
+        }),
+      [openDialog]
+    );
+    return null;
+  };
+
+  render(
+    <DialogProvider>
+      <Comp />
+    </DialogProvider>
+  );
+
+  const background = screen.getByTestId("dialog-background");
+  const body = screen.getByTestId("dialog-body");
+  user.click(background);
+  expect(body).toBeInTheDocument();
+
+  const button = screen.getByTestId("dialog-default-close-button");
+  user.click(button);
   expect(body).not.toBeInTheDocument();
 });
