@@ -28,15 +28,17 @@ function TextField(props) {
   const inputRef = useRef();
 
   const handleClick = () => {
-    openDialog(
-      <div data-testid="text-field-edit-dialog-content">
-        <input
-          data-testid="text-field-edit-dialog-input"
-          ref={inputRef}
-          defaultValue={value}
-        />
-      </div>,
-      [
+    openDialog({
+      body: (
+        <div data-testid="text-field-edit-dialog-content">
+          <input
+            data-testid="text-field-edit-dialog-input"
+            ref={inputRef}
+            defaultValue={value}
+          />
+        </div>
+      ),
+      actions: [
         {
           label: saveLabel,
           handler: () => {
@@ -45,8 +47,8 @@ function TextField(props) {
           },
         },
         { label: closeLabel, handler: closeDialog },
-      ]
-    );
+      ],
+    });
   };
 
   return (

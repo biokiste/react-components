@@ -11,8 +11,12 @@ const DialogContext = createContext();
 
 const initialState = {
   isOpen: false,
-  content: "",
+  body: "",
   actions: [],
+  important: false,
+  closeButton: {
+    label: "Close",
+  },
 };
 
 function reducer(state, action) {
@@ -30,16 +34,25 @@ function reducer(state, action) {
 
 function DialogProvider(props) {
   const { children, ...otherProps } = props;
+
   const [state, dispatch] = useReducer(reducer, initialState);
-  const openDialog = useCallback((msg, act) => {
+
+  const openDialog = useCallback((options) => {
+    const { message, body, ...otherOptions } = options || {};
     dispatch({
       type: "open",
-      data: { content: msg, actions: act, isOpen: true },
+      data: {
+        isOpen: true,
+        body: message || body,
+        ...otherOptions,
+      },
     });
   }, []);
+
   const closeDialog = useCallback(() => {
     dispatch({ type: "close" });
   }, []);
+
   return (
     <DialogContext.Provider
       value={{ openDialog, closeDialog, isOpen: state.isOpen }}
@@ -60,11 +73,12 @@ function useDialog() {
 
 function Dialog(props) {
   const {
-    content,
+    body,
     close,
     isOpen = false,
     actions = [],
-    closeLabel = "Close",
+    important,
+    closeButton,
   } = props;
 
   return isOpen ? (
@@ -80,10 +94,10 @@ function Dialog(props) {
           onClick={(evt) => evt.stopPropagation()}
           className="w-full p-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
         >
-          {typeof content === "string" ? (
-            <p className="dark:text-white">{content}</p>
+          {typeof body === "string" ? (
+            <p className="dark:text-white">{body}</p>
           ) : (
-            content
+            body
           )}
           {actions.length > 0 ? (
             actions.map((action) => {
@@ -95,7 +109,12 @@ function Dialog(props) {
               );
             })
           ) : (
-            <Button onClick={close}>{closeLabel}</Button>
+            <Button
+              data-testid="dialog-default-close-button"
+              onClick={closeButton?.handler || close}
+            >
+              {closeButton.label}
+            </Button>
           )}
         </div>
       </div>

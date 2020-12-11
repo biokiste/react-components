@@ -6,9 +6,9 @@ import { DialogProvider, useDialog } from "..";
 test("show custom message with close button", async () => {
   const customMessage = "custom message";
 
-  const Comp = (props) => {
+  const Comp = () => {
     const { openDialog } = useDialog();
-    useEffect(() => openDialog(customMessage), [openDialog]);
+    useEffect(() => openDialog({ message: customMessage }), [openDialog]);
     return null;
   };
 
@@ -32,21 +32,21 @@ test("replace close button label", () => {
 
   const Comp = () => {
     const { openDialog } = useDialog();
-    useEffect(() => openDialog(customMessage), [openDialog]);
+    useEffect(() => openDialog({ closeButton: { label: customCloseLabel } }), [
+      openDialog,
+    ]);
     return null;
   };
 
   render(
-    <DialogProvider closeLabel={customCloseLabel}>
+    <DialogProvider>
       <Comp />
     </DialogProvider>
   );
 
-  const dialogMessage = screen.getByText(customMessage);
-
-  const okButton = screen.getByText(customCloseLabel);
-  user.click(okButton);
-  expect(dialogMessage).not.toBeInTheDocument();
+  const closeButton = screen.getByText(customCloseLabel);
+  user.click(closeButton);
+  expect(closeButton).not.toBeInTheDocument();
 });
 
 test("use custom actions", () => {
@@ -55,7 +55,7 @@ test("use custom actions", () => {
 
   const Comp = () => {
     const { openDialog } = useDialog();
-    useEffect(() => openDialog(customMessage, [customAction]), [openDialog]);
+    useEffect(() => openDialog({ actions: [customAction] }), [openDialog]);
     return null;
   };
 
@@ -70,13 +70,13 @@ test("use custom actions", () => {
   expect(customAction.handler).toHaveBeenCalled();
 });
 
-test("render passed nodes instead of message string", () => {
+test("add node to body", () => {
   const testId = "custom-test-id";
   const nodeContent = "custom node content";
   const Node = () => <p data-testid={testId}>{nodeContent}</p>;
   const Comp = () => {
     const { openDialog } = useDialog();
-    useEffect(() => openDialog(<Node />), [openDialog]);
+    useEffect(() => openDialog({ body: <Node /> }), [openDialog]);
     return null;
   };
   render(
