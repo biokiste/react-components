@@ -5,7 +5,7 @@ function getDefaultStyles(color, disabled) {
     color = "gray";
   }
   const common =
-    "font-bold uppercase text-base px-8 py-4 rounded outline-none focus:outline-none";
+    "font-bold uppercase text-base px-6 py-3 rounded outline-none focus:outline-none";
   const textColor = disabled
     ? `text-${color}-500 dark:text-${color}-400`
     : "text-white";
@@ -20,7 +20,7 @@ const Button = forwardRef((props, ref) => {
   const {
     onClick,
     children,
-    classNameExt = "",
+    className = "",
     color = "blue",
     disabled = false,
     ...otherProps
@@ -34,7 +34,7 @@ const Button = forwardRef((props, ref) => {
       className={`${getDefaultStyles(
         color,
         disabled
-      )} ${classNameExt}`.trimRight()}
+      )} ${className}`.trimRight()}
       style={{ transition: "all .15s ease" }}
       disabled={disabled}
       {...otherProps}

@@ -92,7 +92,7 @@ function Dialog(props) {
         <div
           data-testid="dialog-body"
           onClick={(evt) => evt.stopPropagation()}
-          className="w-full p-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
+          className="w-full p-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:w-auto sm:max-w-xl"
         >
           {typeof body === "string" ? (
             <p className="dark:text-white">{body}</p>
@@ -103,7 +103,7 @@ function Dialog(props) {
             actions.map((action) => {
               const { label, handler } = action;
               return (
-                <Button key={label} onClick={handler}>
+                <Button key={label} onClick={handler} className="w-full">
                   {label}
                 </Button>
               );
@@ -112,6 +112,7 @@ function Dialog(props) {
             <Button
               data-testid="dialog-default-close-button"
               onClick={closeButton?.handler || close}
+              className="w-full"
             >
               {closeButton.label}
             </Button>
