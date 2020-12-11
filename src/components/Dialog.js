@@ -38,11 +38,12 @@ function DialogProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const openDialog = useCallback((options) => {
-    const { message, body, ...otherOptions } = options || {};
+    const { message, body, title, head, ...otherOptions } = options || {};
     dispatch({
       type: "open",
       data: {
         isOpen: true,
+        head: title || head,
         body: message || body,
         ...otherOptions,
       },
@@ -74,6 +75,7 @@ function useDialog() {
 function Dialog(props) {
   const {
     body,
+    head,
     close,
     isOpen = false,
     actions = [],
@@ -92,31 +94,43 @@ function Dialog(props) {
         <div
           data-testid="dialog-body"
           onClick={(evt) => evt.stopPropagation()}
-          className="w-full p-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:w-auto sm:max-w-xl"
+          className="w-full p-4 overflow-hidden bg-white rounded-t-lg space-y-4 dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:w-auto sm:max-w-xl"
         >
+          {head !== undefined ? (
+            <div className="-mx-4 -mt-4 px-4 py-2 bg-gray-200">
+              {typeof head === "string" ? (
+                <p className="text-lg dark:text-white">{head}</p>
+              ) : (
+                head
+              )}
+            </div>
+          ) : null}
+
           {typeof body === "string" ? (
-            <p className="dark:text-white">{body}</p>
+            <p className="text-base dark:text-white">{body}</p>
           ) : (
             body
           )}
-          {actions.length > 0 ? (
-            actions.map((action) => {
-              const { label, handler } = action;
-              return (
-                <Button key={label} onClick={handler} className="w-full">
-                  {label}
-                </Button>
-              );
-            })
-          ) : (
-            <Button
-              data-testid="dialog-default-close-button"
-              onClick={closeButton?.handler || close}
-              className="w-full"
-            >
-              {closeButton.label}
-            </Button>
-          )}
+          <div className="flex flex-col items-center justify-end space-y-2 sm:space-y-0 sm:space-x-4 sm:flex-row">
+            {actions.length > 0 ? (
+              actions.map((action) => {
+                const { label, handler } = action;
+                return (
+                  <Button key={label} onClick={handler} className="w-full">
+                    {label}
+                  </Button>
+                );
+              })
+            ) : (
+              <Button
+                data-testid="dialog-default-close-button"
+                onClick={closeButton?.handler || close}
+                className="w-full"
+              >
+                {closeButton.label}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </FocusLock>

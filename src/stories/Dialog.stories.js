@@ -5,7 +5,8 @@ import { DialogProvider, useDialog } from "..";
 storiesOf("Dialog", module).add("default", () => {
   const Comp = () => {
     const { openDialog } = useDialog();
-    const handleOpen = () => openDialog({ message: "Dialog open!" });
+    const handleOpen = () =>
+      openDialog({ title: "Title", message: "Dialog open!" });
     return (
       <button onClick={handleOpen} className="dark:text-white">
         Open Dialog

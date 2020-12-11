@@ -3,12 +3,16 @@ import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { DialogProvider, useDialog } from "..";
 
-test("show custom message with close button", async () => {
+test("custom message and title", async () => {
+  const customTitle = "custom title";
   const customMessage = "custom message";
 
   const Comp = () => {
     const { openDialog } = useDialog();
-    useEffect(() => openDialog({ message: customMessage }), [openDialog]);
+    useEffect(
+      () => openDialog({ title: customTitle, message: customMessage }),
+      [openDialog]
+    );
     return null;
   };
 
@@ -19,11 +23,9 @@ test("show custom message with close button", async () => {
   );
 
   const dialogMessage = screen.getByText(customMessage);
+  const dialogTitle = screen.getByText(customTitle);
   expect(dialogMessage).toBeInTheDocument();
-
-  const closeButton = screen.getByText("Close");
-  user.click(closeButton);
-  expect(dialogMessage).not.toBeInTheDocument();
+  expect(dialogTitle).toBeInTheDocument();
 });
 
 test("replace close button label", () => {
@@ -68,13 +70,18 @@ test("use custom actions", () => {
   expect(customAction.handler).toHaveBeenCalled();
 });
 
-test("add node to body", () => {
-  const testId = "custom-test-id";
-  const nodeContent = "custom node content";
-  const Node = () => <p data-testid={testId}>{nodeContent}</p>;
+test("add nodes to body and head", () => {
+  const bodyTestId = "body-node-test-id";
+  const headTestId = "head-node-test-id";
+  const bodyContent = "custom body content";
+  const headContent = "custom node content";
+  const BodyNode = () => <p data-testid={bodyTestId}>{bodyContent}</p>;
+  const HeadNode = () => <p data-testid={headTestId}>{headContent}</p>;
   const Comp = () => {
     const { openDialog } = useDialog();
-    useEffect(() => openDialog({ body: <Node /> }), [openDialog]);
+    useEffect(() => openDialog({ body: <BodyNode />, head: <HeadNode /> }), [
+      openDialog,
+    ]);
     return null;
   };
   render(
@@ -82,8 +89,10 @@ test("add node to body", () => {
       <Comp />
     </DialogProvider>
   );
-  const node = screen.getByTestId(testId);
-  expect(node).toHaveTextContent(nodeContent);
+  const body = screen.getByTestId(bodyTestId);
+  const head = screen.getByTestId(headTestId);
+  expect(body).toHaveTextContent(bodyContent);
+  expect(head).toHaveTextContent(headContent);
 });
 
 test("close on background click", () => {
