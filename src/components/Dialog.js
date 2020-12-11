@@ -86,7 +86,7 @@ function Dialog(props) {
       <div
         data-testid="dialog-background"
         role="dialog"
-        onClick={!important && close}
+        onClick={!important ? close : undefined}
         className="fixed inset-0 z-40 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
       >
         <div
